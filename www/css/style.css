@@ -1,0 +1,28 @@
+body {
+	margin: 10px;
+	font-family: Lato;
+}
+/*td {padding: 5px 0px 5px 0px;}*/
+tr:nth-child(even) {
+	background: #CCC;
+}
+tr:nth-child(odd) {
+	background: #FFF;
+}
+td,th{padding: 5px; padding-left:10px}
+tr>td:first-child {padding-left: 0px}
+td.control {background: white;
+}
+.button {
+	background-color: #e7e7e7;
+	color: black;
+	border: none;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+#fileManager {display: flex;}
+#fileExplorer {flex: 0 0 55%;}
+#configuration {flex: 1;}

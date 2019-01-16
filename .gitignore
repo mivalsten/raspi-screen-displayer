@@ -1,0 +1,7 @@
+/in/**
+/staging/**
+/out/**
+/www/uploads/**
+debug.log
+incomingChecksum.md5
+list.txt
