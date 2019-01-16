@@ -1,5 +1,10 @@
 <?php
+
+session_start();
+
+include('config.php');
 $inputFiles = $_FILES['files'];
+$dir = $uploadsRoot . '/' . $_SESSION['fileExpDir'];
 
 if(!empty($inputFiles))
 {
@@ -7,7 +12,7 @@ if(!empty($inputFiles))
 
     foreach($files as $val)
     {
-		move_uploaded_file($val['tmp_name'],'./uploads/'.$val['name']);
+		move_uploaded_file($val['tmp_name'],$dir.'/'.$val['name']);
 	}
 }
 
@@ -29,5 +34,4 @@ function reArrayFiles($file)
 
 header("Location: {$_SERVER['HTTP_REFERER']}");
 exit;
-
 ?>

@@ -21,16 +21,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 . "${DIR}/config.sh"
 
-stagingImageType=".png"
-framerate=25
-
-#directories
-incoming="${rootPath}/in"
-stagePDF="${rootPath}/staging/1pdf"
-stageImage="${rootPath}/staging/2image"
-stageVideo="${rootPath}/staging/3video"
-output="${rootPath}/out"
-
 ###########################################################
 #                                                         #
 #                   Regular Expressions                   #
@@ -97,13 +87,13 @@ find ${incoming} -maxdepth 1 -iregex "${imageRegex}" -exec basename "{}" \; | wh
 	convert -background white -alpha off -coalesce -density 400 "${incoming}/${name}" "${stageImage}/${name}.png"
 done
 
-#TODO: add separate section for moving images
+#TODO: add separate section for animated images
 
-# Create 10 second video from each single image for stage 2 conversion
+# Create n second video from each single image for stage 2 conversion
 # source: https://trac.ffmpeg.org/wiki/Slideshow
 cd ${stageImage}
 for name in *${stagingImageType}; do
-	ffmpeg -v fatal -loop 1 -i "${stageImage}/${name}" -c:v libx264 -preset ultrafast -t 10 -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${name}.mp4"
+	ffmpeg -v fatal -loop 1 -i "${stageImage}/${name}" -c:v libx264 -preset ultrafast -t ${slideDurationSeconds} -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${name}.mp4"
 done
 
 # get videos from input and normalize them (1920x1080 + black bars if necessary)

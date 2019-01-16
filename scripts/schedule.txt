@@ -1,0 +1,7 @@
+schedule1;1547996400;1548698400
+schedule2;0;0
+schedule3;1547985600;1548608400
+schedule4;0;0
+schedule5;0;0
+schedule6;0;0
+schedule7;0;0

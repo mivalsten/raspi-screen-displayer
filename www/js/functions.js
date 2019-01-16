@@ -13,3 +13,7 @@ function changeConfigValue(ID) {
 	document.getElementById(configSpan).innerHTML = newValue;
 	document.getElementById(configValue).value = newValue;
 }
+
+function scheduleChanged() {
+	document.getElementById("scheduleForm").submit();
+}
