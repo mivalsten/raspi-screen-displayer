@@ -1,7 +1,14 @@
 /in/**
+!/in/
 /staging/**
+!/staging/
+!/staging/1pdf/
+!/staging/2image/
+!/staging/3video/
 /out/**
+!/out/
 /www/uploads/**
+!/www/uploads/
 debug.log
 incomingChecksum.md5
 list.txt
