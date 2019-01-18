@@ -12,26 +12,6 @@
 		<link rel="stylesheet" href="/resources/demos/style.css">
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<?php 
-		
-print '
-		<script>
-			$( function() {
-				flatpickr("#pickerStart", {
-    				enableTime: true,
-					dateFormat: "Y-m-d H:i",
-					time_24hr: true
-					defaultDate: ' . $scheduleStartEpoch . '
-				});
-				flatpickr("#pickerEnd", {
-    				enableTime: true,
-					dateFormat: "Y-m-d H:i",
-					time_24hr: true
-					defaultDate: ' . $scheduleEndEpoch . '
-				});
-			} );
-		</script>
-';?>
 	</head>
 	<body>
 <?php

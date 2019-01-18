@@ -19,4 +19,5 @@ stagePDF="${stage}/1pdf"
 stageImage="${stage}/2image"
 stageVideo="${stage}/3video"
 output="${rootPath}/out"
-
+www="${rootPath}/www"
+wwwUploads="${www}/uploads"

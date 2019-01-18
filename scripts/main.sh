@@ -43,6 +43,9 @@ rm -rf ${stageImage}/*
 rm -rf ${stageVideo}/*
 rm -rf ${output}/*
 
+#check if schedule is active and symlink correct directory
+. ${DIR}/scheduler.sh
+
 # fix filenames
 cd ${incoming}
 for file in *.*; do
