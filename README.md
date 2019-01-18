@@ -6,9 +6,13 @@ As of now, the RaspberryPi playing part is not yet complete.
 How to use:
 
 Pull to local, install php and your favourite webserver. Add execution right to scripts from ./scripts
+
 Edit and execute ./scripts/config.sh
+
 Edit ./www/config.php
+
 Configure your webserver with ./www as a root document.
+
 Configure usernames and passwords (plaintext xD) in ./www/login.php. This will get fixed sometime to use nginx pam module or something.
 
 Probably some permissions are incorrect, run ./scripts/main.sh to find out which.
