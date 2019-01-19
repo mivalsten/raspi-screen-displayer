@@ -20,3 +20,5 @@ Probably some permissions are incorrect, run ./scripts/main.sh to find out which
 Basically this. Control panel is pretty basic, so you should be able to figue it out yourself.
 
 Schedules are set in a way that allows only first valid schedule to be activated.
+
+./scripts/main.sh should be in cron.
