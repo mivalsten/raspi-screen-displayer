@@ -18,7 +18,7 @@
 
 session_start();
 
-include('config.php');
+include('../config.php');
 include('login.php');
 
 if ($_POST['scheduleSelect']) {
@@ -38,7 +38,7 @@ print '<div id="fileManager">';
 include('fileManager.php');
 print '<h2>Dodaj pliki</h2>';
 print '
-<form action="upload.php" method="post" multipart="" enctype="multipart/form-data">
+<form action="post/upload.php" method="post" multipart="" enctype="multipart/form-data">
 <input type="file" name="files[]" multiple value="wybierz pliki"><br>
 <input type="submit" value="wyslij">
 </form>';
@@ -80,14 +80,14 @@ print '<form id="scheduleForm" action="" method="post"> <select name="scheduleSe
 		print '<option value="'. $sc . '"' . $tmp . '>' . $sc . '</option>';}
 print '</select></form>';
 if ($_SESSION['fileExpDir'] != 'default') {
-	print '<form id=scheduleTime action="/set_schedule.php" method="post">';
+	print '<form id=scheduleTime action="post/set_schedule.php" method="post">';
 	print '<table><tr><td>Początek:</td><td><input type="text" name="start-date" id="pickerStart" class="flatpickr"></td></tr>';
 	print '<tr><td>Koniec:</td><td><input type="text" name="end-date" id="pickerEnd" class="flatpickr"></td></tr></table>';
 	print '<input type="submit" value="wyslij"></form>';
 }
 print '<h2>Konfiguracja</h2>';
 
-print '<form action="/update_config.php" method="POST">';
+print '<form action="post/update_config.php" method="POST">';
 $configuration=file($scriptConfig);
 print "<table><th>Zmienna</th><th>Wartosć</th><th>Typ</th>";
 $isEditable = False;

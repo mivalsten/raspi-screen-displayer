@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include('config.php');
+include('../config.php');
 
 $startDate=new DateTime($_POST['start-date']);
 $endDate=new DateTime($_POST['end-date']);
