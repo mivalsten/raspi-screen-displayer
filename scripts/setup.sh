@@ -15,21 +15,28 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 . "${DIR}/config.sh"
 
-sudo apt-get install -y samba imagemagick libreoffice ffmpeg
+mkdir \
+${stage} \
+${stagePDF} \
+${stageImage} \
+${stageVideo} \
+${output} \
+${www} \
+${wwwUploads} ${wwwUploads}/default ${wwwUploads}/schedule1 ${wwwUploads}/schedule2 \
+${wwwUploads}/schedule3 ${wwwUploads}/schedule4 ${wwwUploads}/schedule5 \
+${wwwUploads}/schedule6 ${wwwUploads}/schedule7
+
+#backend side
+sudo apt-get install -y imagemagick libreoffice ffmpeg
 
 #configure ImageMagick policy.xml
 sudo cp ${DIR}/policy.xml /etc/ImageMagick-6/policy.xml
 
-#TODO: automatic samba configuration
+#front side
+sudo apt-get install -y "php7.2-fpm"
+sudo apt-get install -y "nginx"
 
-sambaConfig="
-[videoOutput]
-	directory mode = 777
-	guest only = yes
-	guest ok = yes
-	path = ${output}
-	comment = Video output
-	public = yes
-	create mode = 777
-	writeable = no
-"
+sudo cp ${DIR}/templates/nginx.conf /etc/nginx/sites-available/rsd.conf
+sudo ln /etc/nginx/sites-available/rsd.conf /etc/nginx/sites-available/rsd.conf
+
+sudo cp ${DIR}/templates/php.ini /etc/php/7.2/fpm/php.ini

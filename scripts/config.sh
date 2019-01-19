@@ -11,7 +11,6 @@ framerate=25 #int #
 slideDurationSeconds=10 #int #s
 #php editable end
 
-
 #directories
 incoming="${rootPath}/in"
 stage="${rootPath}/staging"
