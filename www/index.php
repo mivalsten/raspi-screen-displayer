@@ -9,7 +9,6 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<link rel="stylesheet" href="/resources/demos/style.css">
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
@@ -18,7 +17,7 @@
 
 session_start();
 
-include('../config.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 include('login.php');
 
 if ($_POST['scheduleSelect']) {
@@ -30,9 +29,6 @@ else {
 	else {$directory = $uploadsRoot.'/default';}
 	
 }
-
-$scanned_directory = array_diff(scandir($directory), array('..', '.'));
-natcasesort($scanned_directory);
 
 print '<div id="fileManager">';
 include('fileManager.php');
@@ -51,29 +47,31 @@ $isEditable = False;
 foreach($scheduleConfiguration as $line){
 	$sch = explode(';',$line)[0];
 	if (explode(';',$line)[0] == $_SESSION['fileExpDir']) {
-		$scheduleStartEpoch = explode(';',$line)[1] * 1000;
-		$scheduleEndEpoch = explode(';',$line)[2] * 1000;
+		$scheduleStartEpoch = preg_replace('/[^0-9]/','',explode(';',$line)[1]) * 1000;
+		$scheduleEndEpoch = preg_replace('/[^0-9]/','',explode(';',$line)[2]) * 1000;
 	}
 };
 
-print '
-<script>
-			$( function() {
-				flatpickr("#pickerStart", {
-    				enableTime: true,
-					dateFormat: "Y-m-d H:i",
-					time_24hr: true,
-					defaultDate: ' . $scheduleStartEpoch . '
-				});
-				flatpickr("#pickerEnd", {
-    				enableTime: true,
-					dateFormat: "Y-m-d H:i",
-					time_24hr: true,
-					defaultDate: ' . $scheduleEndEpoch . '
-				});
-			} );
-		</script>
-';
+if ($_SESSION['fileExpDir'] != 'default') {
+	print '
+	<script>
+				$( function() {
+					flatpickr("#pickerStart", {
+						enableTime: true,
+						dateFormat: "Y-m-d H:i",
+						time_24hr: true,
+						defaultDate: ' . $scheduleStartEpoch . '
+					});
+					flatpickr("#pickerEnd", {
+						enableTime: true,
+						dateFormat: "Y-m-d H:i",
+						time_24hr: true,
+						defaultDate: ' . $scheduleEndEpoch . '
+					});
+				} );
+			</script>
+	';
+}
 print '<h2>Harmonogramy</h2>';
 print '<form id="scheduleForm" action="" method="post"> <select name="scheduleSelect" onchange="scheduleChanged()">';
 	foreach($schedules as $sc) {if ($sc == $_SESSION['fileExpDir']) {$tmp = ' selected';} else {$tmp = '';};
@@ -100,12 +98,11 @@ foreach($configuration as $line){
 		$name = $conf[0];
 		$value = str_replace('"','',explode(' #', $conf[1])[0]);
 		$type = str_replace(array("\n", "\r"), '', explode(' #', $conf[1])[1]);
-		$unit = str_replace(array("\n", "\r"), '', explode(' #', $conf[1])[2]);
 		print '<tr>
 		<td>' . $name .  '<input type="text" name="name[]"  value="' . $name . '" style="display: none;"></td>
 		<td><span id="configSpan' . $i . '">' . $value . '</span><input type="text" name="value[]" value=' . $value . '  style="display: none;" id="configValue' . $i . '"></td>
 		<td>' . $type .  '<input type="text" name="type[]"  value="' . $type . '" style="display: none;"></td>
-		<td class="control"><button type="submit" class="button" onclick="changeConfigValue(\'' . $i . '\')">zmodyfikuj</button></td>
+		<td class="control"><button type="button" class="button" onclick="changeConfigValue(\'' . $i . '\')">zmodyfikuj</button></td>
 		</tr>';
 	}
 

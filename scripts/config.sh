@@ -5,10 +5,10 @@
 # to ensure that it's properly handled by PHP frontend
 
 #php editable start
-rootPath="/srv/inz/" #string #
-stagingImageType=".png" #string #
-framerate=25 #int #
-slideDurationSeconds=10 #int #s
+rootPath="/srv/inz/" #string
+stagingImageType=".png" #string
+framerate=25 #int
+slideDurationSeconds=15 #int
 #php editable end
 
 #directories

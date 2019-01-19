@@ -2,7 +2,7 @@
 
 session_start();
 
-include('../config.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 $inputFiles = $_FILES['files'];
 $dir = $uploadsRoot . '/' . $_SESSION['fileExpDir'];
 

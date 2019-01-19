@@ -11,7 +11,7 @@ $schedules = array('default',
 			  'schedule6',
 			  'schedule7');
 
-$scriptConfig='../scripts/config.sh';
-$scheduleConfig='../scripts/schedule.txt';
+$scriptConfig=$_SERVER["DOCUMENT_ROOT"] . '/../scripts/config.sh';
+$scheduleConfig=$_SERVER["DOCUMENT_ROOT"] . '/../scripts/schedule.txt';
 
 ?>

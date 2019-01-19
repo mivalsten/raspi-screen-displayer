@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include('../config.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 if ($_SESSION['fileExpDir']) {$directory = $uploadsRoot . '/' . $_SESSION['fileExpDir'];}
 
 

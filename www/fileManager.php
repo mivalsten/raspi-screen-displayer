@@ -1,8 +1,11 @@
 <?php
 
-session_start();
-include('../onfig.php');
-if ($_SESSION['fileExpDir']) {$directory = $uploadsRoot . '/' . $_SESSION['fileExpDir'];}
+#session_start();
+#include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
+#if ($_SESSION['fileExpDir']) {$directory = $uploadsRoot . '/' . $_SESSION['fileExpDir'];}
+
+$scanned_directory = array_diff(scandir($directory), array('..', '.'));
+natcasesort($scanned_directory);
 
 print '<div id="fileExplorer">';
 print '<h2>Aktualne pliki</h2>';
