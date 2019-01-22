@@ -58,13 +58,17 @@ if ($_SESSION['fileExpDir'] != 'default') {
 				$( function() {
 					flatpickr("#pickerStart", {
 						enableTime: true,
-						dateFormat: "Y-m-d H:i",
+						dateFormat: "Z",
+						altInput: true,
+						altFormat: "Y-m-d H:i",
 						time_24hr: true,
 						defaultDate: ' . $scheduleStartEpoch . '
 					});
 					flatpickr("#pickerEnd", {
 						enableTime: true,
-						dateFormat: "Y-m-d H:i",
+						dateFormat: "Z",
+						altInput: true,
+						altFormat: "Y-m-d H:i",
 						time_24hr: true,
 						defaultDate: ' . $scheduleEndEpoch . '
 					});
