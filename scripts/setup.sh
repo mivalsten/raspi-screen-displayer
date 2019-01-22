@@ -36,7 +36,7 @@ sudo cp ${DIR}/policy.xml /etc/ImageMagick-6/policy.xml
 sudo apt-get install -y "php7.2-fpm"
 sudo apt-get install -y "nginx"
 
-sudo cp ${DIR}/templates/nginx.conf /etc/nginx/sites-available/rsd.conf
+sudo cp ${DIR}/templates/site-rsd.conf /etc/nginx/sites-available/rsd.conf
 sudo ln /etc/nginx/sites-available/rsd.conf /etc/nginx/sites-available/rsd.conf
 
 sudo cp ${DIR}/templates/php.ini /etc/php/7.2/fpm/php.ini
