@@ -2,9 +2,9 @@
 
 ####################################################################
 #                                                                  #
-#Script Name       : scheduler.sh                      			   #
+#Script Name       : scheduler.sh                                  #
 #Description       : Used to link input directory to scheduled     #
-#					 documents 						               #
+#                    documents                                     #
 #Author            : Grzegorz Kawka-Osik                           #
 #Version           : 1.0                                           #
 #Creation date     : 04.01.2018                                    #
@@ -24,6 +24,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 scheduleFile="${DIR}/schedule.txt"
 noSched=1
 
+if [[ -e "${incoming}" ]]; then
+	rm "${incoming}"
+fi
 
 for line in `cat ${scheduleFile}`; do
     sch=`echo ${line} | cut -d ';' -f 1`
@@ -31,12 +34,14 @@ for line in `cat ${scheduleFile}`; do
 	endEpoch=`echo ${line} | cut -d ';' -f 3`
 	currentEpoch=`date +%s`
 	if [[ "${startEpoch}" -le "${currentEpoch}" && "${currentEpoch}" -le "${endEpoch}" ]]; then
-		ln "${wwwUploads}/${sch}" "${incoming}"
+		echo linking "${wwwUploads}/${sch}" in "${incoming}"
+		ln -s -f "${wwwUploads}/${sch}" "${incoming}"
 		noSched=0
 		break
 	fi
 done
 
-if [[ "${noSched}" -eq "0" ]]; then
-	ln "${wwwUploads}/default" "${incoming}"
+if [[ "${noSched}" -eq "1" ]]; then
+	echo linking "${wwwUploads}/default" in  "${incoming}"
+	ln -s -f "${wwwUploads}/default" "${incoming}"
 fi

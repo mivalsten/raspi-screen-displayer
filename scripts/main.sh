@@ -2,9 +2,9 @@
 
 ####################################################################
 #                                                                  #
-#Script Name       : main.sh                      				   #
-#Description       : Main script used to normalize				   # 
-#					 and join media files						   #
+#Script Name       : main.sh                                       #
+#Description       : Main script used to normalize                 # 
+#                    and join media file                           #
 #Author            : Grzegorz Kawka-Osik                           #
 #Version           : 1.0                                           #
 #Creation date     : 04.01.2018                                    #
@@ -59,7 +59,7 @@ done
 # if not same, execute rest of the script
 # command taken from https://stackoverflow.com/questions/1657232/how-can-i-calculate-an-md5-checksum-of-a-directory
 oldChecksum=`cat ${rootPath}/incomingChecksum.md5`
-newChecksum=`find ${incoming} -type f -name "*" -exec md5sum {} + | awk '{print $1}' | sort | md5sum | cut -d' ' -f1`
+newChecksum=`find ${incoming}/ -type f -name "*" -exec md5sum {} + | awk '{print $1}' | sort | md5sum | cut -d' ' -f1`
 
 echo "old ${oldChecksum}"
 echo "new ${newChecksum}"
@@ -73,20 +73,26 @@ fi
 
 #find office documents in incoming directory and convert them to PDF for stage one conversion
 echo "converting documents to PDFs"
-find ${incoming} -maxdepth 1 -iregex "${documentRegex}" | while read name; do
+find ${incoming}/ -maxdepth 1 -iregex "${documentRegex}" | while read name; do
+	echo converting $name
 	libreoffice --convert-to pdf "${name}" --outdir "${stagePDF}"
 done
 
 #copy PDF files to include them in further processing
-find ${incoming} -maxdepth 1 -name "*.pdf" -exec cp {} ${stagePDF} \;
+find ${incoming}/ -maxdepth 1 -name "*.pdf" -exec cp {} ${stagePDF} \;
 
+echo converting PDFs to images
 #convert pdf files to images for stage 2 conversion
 find ${stagePDF} -maxdepth 1 -name "*.pdf" -exec basename "{}" .pdf \; | while read name; do
-	convert -background white -alpha off -density 400 "${stagePDF}/${name}.pdf" "${stageImage}/${name}.png"
+	echo converting $name
+	convert -background white -alpha off -density 400 "${stagePDF}/${name}.pdf" "${stageImage}/${name}-%04d.png"
 done
 
 #convert other images to png for further processing
-find ${incoming} -maxdepth 1 -iregex "${imageRegex}" -exec basename "{}" \; | while read name; do
+
+echo converting images to PNGs
+find ${incoming}/ -maxdepth 1 -iregex "${imageRegex}" -exec basename "{}" \; | while read name; do
+	echo converting $name
 	convert -background white -alpha off -coalesce -density 400 "${incoming}/${name}" "${stageImage}/${name}.png"
 done
 
@@ -94,8 +100,11 @@ done
 
 # Create n second video from each single image for stage 2 conversion
 # source: https://trac.ffmpeg.org/wiki/Slideshow
+
+echo converting images to videos
 cd ${stageImage}
 for name in *${stagingImageType}; do
+	echo converting $name
 	ffmpeg -v fatal -loop 1 -i "${stageImage}/${name}" -c:v libx264 -preset ultrafast -t ${slideDurationSeconds} -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${name}.mp4"
 done
 
@@ -103,13 +112,15 @@ done
 # for some reason, only first run was executing correctly, puting them in background solves the issue #bashIsWeird
 # at the end to let conversions finish
 cd ${incoming}
-find ${incoming} -maxdepth 1 -iregex "${videoRegex}" -exec basename {} \; | sort | while read name; do
+echo normalising videos
+find ${incoming}/ -maxdepth 1 -iregex "${videoRegex}" -exec basename {} \; | sort | while read name; do
 	filename="${name%.*}"
+	working on $filename
 	ffmpeg -v fatal -i "${incoming}/${name}" -c:v libx264 -preset ultrafast -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${filename}.mp4" &
 done
 
+echo creating final video
 while [[ `ps -ef | grep ffmpeg | wc -l` -gt 1 ]]; do
-	echo waiting... >> ${rootPath}/debug.log
 	sleep 1
 done
 
