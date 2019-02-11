@@ -12,9 +12,12 @@ if(!empty($inputFiles))
 
     foreach($files as $val)
     {
-		move_uploaded_file($val['tmp_name'],$dir.'/'.$val['name']);
+        move_uploaded_file($val['tmp_name'],$dir.'/'.$val['name']);
+        log_message('wgrano plik ' . $val['name']);
 	}
 }
+
+
 
 function reArrayFiles($file)
 {
