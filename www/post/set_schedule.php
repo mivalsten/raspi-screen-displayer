@@ -2,6 +2,7 @@
 
 session_start();
 include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/post/functions.php');
 
 $startDate=new DateTime($_POST['start-date']);
 $endDate=new DateTime($_POST['end-date']);
@@ -20,6 +21,9 @@ foreach($configuration as $line){
 	else {$newConfigurationFileContents .= $line;}
 };
 file_put_contents($scheduleConfig, $newConfigurationFileContents);
+
+log_message('Zmieniono start harmonogramu ' . $_SESSION['fileExpDir'] . ' na ' . $startDate);
+log_message('Zmieniono koniec harmonogramu ' . $_SESSION['fileExpDir'] . ' na ' . $endDate);
 
 #print $_POST['start-date'] . " - " . $startDateEpoch . "<br>";
 #print $_POST['end-date'] . " - " . $endDateEpoch;

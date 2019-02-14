@@ -3,37 +3,20 @@
 session_start();
 
 include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/post/functions.php');
 $inputFiles = $_FILES['files'];
-$dir = $uploadsRoot . '/' . $_SESSION['fileExpDir'];
+$dir = $_SERVER["DOCUMENT_ROOT"] . '/' . $uploadsRoot . '/' . $_SESSION['fileExpDir'];
 
 if(!empty($inputFiles))
 {
-    $files = reArrayFiles($inputFiles);
 
-    foreach($files as $val)
-    {
-        move_uploaded_file($val['tmp_name'],$dir.'/'.$val['name']);
-        log_message('wgrano plik ' . $val['name']);
+    for( $i=0 ; $i < count($inputFiles['name']) ; $i++ ){
+        move_uploaded_file($inputFiles['tmp_name'][$i], $dir . '/' . $inputFiles['name'][$i]);
+        log_message('wgrano plik ' . $inputFiles['name'][$i]);
 	}
 }
 
-
-
-function reArrayFiles($file)
-{
-    $file_ary = array();
-    $file_count = count($file['name']);
-    $file_key = array_keys($file);
-    
-    for($i=0;$i<$file_count;$i++)
-    {
-        foreach($file_key as $val)
-        {
-            $file_ary[$i][$val] = $file[$val][$i];
-        }
-    }
-    return $file_ary;
-}
+#print_r($inputFiles);
 
 header("Location: {$_SERVER['HTTP_REFERER']}");
 exit;

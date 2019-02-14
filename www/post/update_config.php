@@ -25,6 +25,8 @@ foreach($configuration as $line){
 }
 file_put_contents($scriptConfig, $newConfigurationFileContents);
 
+
+
 header("Location: {$_SERVER['HTTP_REFERER']}");
 exit;
 

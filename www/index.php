@@ -20,7 +20,9 @@ session_start();
 include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 include('login.php');
 
-if ($_POST['scheduleSelect']) {
+if (! isset($_SESSION['fileExpDir'])) {$_SESSION['fileExpDir'] = 'default';}
+
+if (isset($_POST['scheduleSelect'])) {
 	$directory = $uploadsRoot.'/'.$_POST['scheduleSelect'];
 	$_SESSION['fileExpDir']=$_POST['scheduleSelect'];
 }
