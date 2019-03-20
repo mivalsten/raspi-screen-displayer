@@ -12,7 +12,7 @@ if(!empty($inputFiles))
 
     for( $i=0 ; $i < count($inputFiles['name']) ; $i++ ){
         move_uploaded_file($inputFiles['tmp_name'][$i], $dir . '/' . $inputFiles['name'][$i]);
-        log_message('wgrano plik ' . $inputFiles['name'][$i]);
+        log_message('do katalogu ' . $_SESSION['fileExpDir'] . ' wgrano plik ' . $inputFiles['name'][$i]);
 	}
 }
 

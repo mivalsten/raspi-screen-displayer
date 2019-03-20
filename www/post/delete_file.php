@@ -7,7 +7,7 @@ if ($_SESSION['fileExpDir']) {$directory = $_SERVER["DOCUMENT_ROOT"] . '/' . $up
 
 $var = $_POST;
 unlink($directory . '/' . $var['filename']);
-log_message('usunieto plik ' . $var['filename']);
+log_message('z katalogu ' . $_SESSION['fileExpDir'] . ' usunieto plik ' . $var['filename']);
 
 header("Location: {$_SERVER['HTTP_REFERER']}");
 exit;

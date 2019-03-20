@@ -1,6 +1,6 @@
 schedule1;1548097200;1548108000
 schedule2;0;0
-schedule3;1548424800;1548698400
+schedule3;1548338400;1548439200
 schedule4;0;0
 schedule5;0;0
 schedule6;0;0

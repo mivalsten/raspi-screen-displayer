@@ -14,6 +14,6 @@ $schedules = array('default',
 $scriptConfig=$_SERVER["DOCUMENT_ROOT"] . '/../scripts/config.sh';
 $scheduleConfig=$_SERVER["DOCUMENT_ROOT"] . '/../scripts/schedule.txt';
 
-$logPath = '/var/log/rsd.log'
+$logPath = '/srv/inz/log/rsd.log';
 
 ?>

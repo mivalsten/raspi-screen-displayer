@@ -37,6 +37,12 @@ imageRegex=".*\.\(png\|gif\|jpe?g\|webm\)"
 #                                                         #
 ###########################################################
 
+#if another instance of this script is running, exit silently
+
+if [ `ps -ef | grep $0 | wc -l` -gt 1 ]; then
+	exit 0
+fi
+
 #cleanup working directories
 rm -rf ${stagePDF}/*
 rm -rf ${stageImage}/*
@@ -58,7 +64,7 @@ done
 # calculate MD5 of input directory to check for changes
 # if not same, execute rest of the script
 # command taken from https://stackoverflow.com/questions/1657232/how-can-i-calculate-an-md5-checksum-of-a-directory
-oldChecksum=`cat ${rootPath}/incomingChecksum.md5`
+oldChecksum=`cat ${rootPath}/out/incomingChecksum.md5`
 newChecksum=`find ${incoming}/ -type f -name "*" -exec md5sum {} + | awk '{print $1}' | sort | md5sum | cut -d' ' -f1`
 
 echo "old ${oldChecksum}"
@@ -68,7 +74,7 @@ if [[ "${oldChecksum}" = "${newChecksum}" ]]; then
 	echo "no changes detected, exiting"
 	exit 0
 else
-	echo "${newChecksum}"  > ${rootPath}/incomingChecksum.md5
+	echo "${newChecksum}"  > ${rootPath}/out/newIncomingChecksum.md5
 fi
 
 #find office documents in incoming directory and convert them to PDF for stage one conversion
@@ -93,7 +99,7 @@ done
 echo converting images to PNGs
 find ${incoming}/ -maxdepth 1 -iregex "${imageRegex}" -exec basename "{}" \; | while read name; do
 	echo converting $name
-	convert -background white -alpha off -coalesce -density 400 "${incoming}/${name}" "${stageImage}/${name}.png"
+	convert -background white -alpha off -coalesce -density 200 "${incoming}/${name}" "${stageImage}/${name}.png"
 done
 
 #TODO: add separate section for animated images
@@ -115,7 +121,7 @@ cd ${incoming}
 echo normalising videos
 find ${incoming}/ -maxdepth 1 -iregex "${videoRegex}" -exec basename {} \; | sort | while read name; do
 	filename="${name%.*}"
-	working on $filename
+	echo working on $filename
 	ffmpeg -v fatal -i "${incoming}/${name}" -c:v libx264 -preset ultrafast -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${filename}.mp4" &
 done
 
@@ -124,4 +130,8 @@ while [[ `ps -ef | grep ffmpeg | wc -l` -gt 1 ]]; do
 	sleep 1
 done
 
-ffmpeg -v fatal -f concat -safe 0 -i <(find ${stageVideo} -name '*.mp4' -printf "file '%p'\n" | sort) -s hd1080 -c:v libx264 -acodec copy -an -strict -2 -y -r ${framerate} ${output}/out.mp4
+ffmpeg -v fatal -f concat -safe 0 -i <(find ${stageVideo} -name '*.mp4' -printf "file '%p'\n" | sort) -s hd1080 -c:v libx264 -acodec copy -an -strict -2 -y -r ${framerate} ${output}/final.mp4
+
+if [ -f ${rootPath}/out/newIncomingChecksum.md5 ]; then
+	mv ${rootPath}/out/newIncomingChecksum.md5 ${rootPath}/out/incomingChecksum.md5
+fi
