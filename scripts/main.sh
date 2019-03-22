@@ -39,7 +39,12 @@ imageRegex=".*\.\(png\|gif\|jpe?g\|webm\)"
 
 #if another instance of this script is running, exit silently
 
-if [ `ps -ef | grep $0 | wc -l` -gt 1 ]; then
+lsps=`ps -ef | grep $0`
+cnt=`echo ${lsps} | wc -l`
+if [ ${cnt} -gt 2 ]; then
+	echo ${lsps}
+	echo ${cnt}
+	ps -ef | grep $0
 	exit 0
 fi
 

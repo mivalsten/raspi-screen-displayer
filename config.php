@@ -12,6 +12,7 @@ $schedules = array('default',
 			  'schedule7');
 
 $scriptConfig=$_SERVER["DOCUMENT_ROOT"] . '/../scripts/config.sh';
+$clientConfig=$_SERVER["DOCUMENT_ROOT"] . '/../out/client.conf';
 $scheduleConfig=$_SERVER["DOCUMENT_ROOT"] . '/../scripts/schedule.txt';
 
 $logPath = '/srv/inz/log/rsd.log';

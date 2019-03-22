@@ -117,6 +117,28 @@ foreach($configuration as $line){
 print '</table>
 <input type="submit" value="wyslij">
 </form>';
+
+print '<div id="client_config">';
+print '<h2>godziny dzialania</h2>';
+
+$clientConfiguration=file($clientConfig);
+
+print '<form action="post/update_client_config.php" method="POST">';
+print "<table><th>Zmienna</th><th>Wartosć</th>";
+$i=0;
+foreach($clientConfiguration as $line){
+	$i++;
+	$line=explode('=', str_replace("\n", "", $line));
+	print '<tr><td>' . $line[0] . '<input type="text" name="name[]"  value="' . $line[0] . '" style="display: none;">' . '</td>';
+	print '<td><span id="clientConfigSpan' . $i . '">' . str_replace('"', '', $line[1]) . '</span><input type="text" name="val[]"  value="' . str_replace('"', '', $line[1]) . '" style="display: none;" id="clientConfigValue' . $i . '"></td>';
+	print '<td class="control"><button type="button" class="button" onclick="changeClientConfigValue(\'' . $i . '\')">zmodyfikuj</button></td></tr>';
+}
+print '</table>
+<input type="submit" value="wyslij">
+</form>';
+
+print '</div>';
+
 print '</div>';
 
 ?>

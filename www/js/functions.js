@@ -12,8 +12,16 @@ function changeConfigValue(ID) {
 	var newValue = prompt("Podaj nową wartosć", document.getElementById(configSpan).innerHTML);
 	document.getElementById(configSpan).innerHTML = newValue;
 	document.getElementById(configValue).value = newValue;
-}
+};
+
+function changeClientConfigValue(ID) {
+	configSpan= "clientConfigSpan"+ID;
+	configValue="clientConfigValue"+ID;
+	var newValue = prompt("Podaj nową wartosć", document.getElementById(configSpan).innerHTML);
+	document.getElementById(configSpan).innerHTML = newValue;
+	document.getElementById(configValue).value = newValue;
+};
 
 function scheduleChanged() {
 	document.getElementById("scheduleForm").submit();
-}
+};

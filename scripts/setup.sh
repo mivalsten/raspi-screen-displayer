@@ -40,3 +40,9 @@ sudo cp ${DIR}/templates/site-rsd.conf /etc/nginx/sites-available/rsd.conf
 sudo ln /etc/nginx/sites-available/rsd.conf /etc/nginx/sites-available/rsd.conf
 
 sudo cp ${DIR}/templates/php.ini /etc/php/7.2/fpm/php.ini
+
+sudo apt-get install acl isc-dhcp-server bind9
+
+sudo apt-get install vim mc
+
+echo unpack bind and dhcpd configuration
