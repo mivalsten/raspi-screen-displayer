@@ -52,7 +52,7 @@ fi
 rm -rf ${stagePDF}/*
 rm -rf ${stageImage}/*
 rm -rf ${stageVideo}/*
-rm -rf ${output}/final.mp4
+rm -rf ${output}/*
 
 #check if schedule is active and symlink correct directory
 . ${DIR}/scheduler.sh
@@ -137,6 +137,6 @@ done
 
 ffmpeg -v fatal -f concat -safe 0 -i <(find ${stageVideo} -name '*.mp4' -printf "file '%p'\n" | sort) -s hd1080 -c:v libx264 -acodec copy -an -strict -2 -y -r ${framerate} ${output}/final.mp4
 
-if [ -f ${rootPath}/out/newIncomingChecksum.md5 ]; then
-	mv ${rootPath}/out/newIncomingChecksum.md5 ${rootPath}/out/incomingChecksum.md5
+if [ -f ${output}/newIncomingChecksum.md5 ]; then
+	mv ${output}/newIncomingChecksum.md5 ${output}/incomingChecksum.md5
 fi

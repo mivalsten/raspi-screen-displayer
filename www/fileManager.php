@@ -10,10 +10,13 @@ natcasesort($scanned_directory);
 print '<div id="fileExplorer">';
 print '<h2>Aktualne pliki</h2>';
 
-print "<table><th>nazwa</th><th>Rozmiar</th><th></th><th></th>";
+print '<table id="fileTable">
+<th>nazwa</th>
+<th>Rozmiar</th>
+<th></th><th></th>';
 foreach($scanned_directory as $val){
-	echo '<tr><td>'.$val.'</td>' . "\n";
-	print '<td>'.ceil(filesize($directory.'/'.$val)/1024).'KB</td>' . "\n";
+	echo '<tr><td><a href="/uploads/' . $_SESSION['fileExpDir'] . '/' . $val . '">'.$val.'</a></td>' . "\n";
+	print '<td>'.ceil(filesize($directory.'/'.$val)/1024).'<span style="margin-left:1px;">kb</span></td>' . "\n";
 	print '<td class="control"><form action="post/delete_file.php" method="POST"><input type="text" name="filename" value="' . 
 		  $val . '" style="display: none;"><button type="submit" class="button">usuń</button></form></td>' . "\n";
 	print '<td class="control"><form action="post/rename_file.php" method="POST" onclick="getNewFilename(\'' . $val . '\')">' . 

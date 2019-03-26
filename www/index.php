@@ -41,6 +41,8 @@ print '
 <input type="submit" value="wyslij">
 </form>';
 
+print '<br><a href="/out/final.mp4">Pobierz aktualny film</a>';
+
 print '</div>';
 print '<div id="configuration">';
 
