@@ -1,13 +1,24 @@
 <?php
 
-$valid_passwords = array ("test" => "testtest",
-						              "user" => "password",);
-$valid_users = array_keys($valid_passwords);
+include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 
-$user = $_SERVER['PHP_AUTH_USER'];
+include($_SERVER["DOCUMENT_ROOT"] . '/db.php');
+
+$user = SQLite3::escapeString($_SERVER['PHP_AUTH_USER']);
 $pass = $_SERVER['PHP_AUTH_PW'];
 
-$validated = (in_array($user, $valid_users)) && ($pass == $valid_passwords[$user]);
+$sql = '
+SELECT passwd FROM t_users
+WHERE username = \'' . $user . '\';';
+
+$ret = $db->query($sql);
+
+while($row = $ret->fetchArray(SQLITE3_ASSOC) ) {
+  $pass_hash = $row['passwd'];  
+}
+$db->close();
+
+$validated = (password_verify($pass, $pass_hash));
 
 if (!$validated) {
   header('WWW-Authenticate: Basic realm="inz"');
