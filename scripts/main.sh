@@ -52,7 +52,7 @@ fi
 rm -rf ${stagePDF}/*
 rm -rf ${stageImage}/*
 rm -rf ${stageVideo}/*
-rm -rf ${output}/*
+rm -rf ${output}/final.mp4
 
 #check if schedule is active and symlink correct directory
 . ${DIR}/scheduler.sh
