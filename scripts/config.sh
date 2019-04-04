@@ -7,7 +7,7 @@
 
 #php editable start
 rootPath="/srv/inz" #string
-stagingImageType=".png" #string
+stagingImageType=".tiff" #string
 framerate=25 #int
 slideDurationSeconds=5 #int
 #php editable end

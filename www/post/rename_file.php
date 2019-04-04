@@ -6,10 +6,10 @@ include($_SERVER["DOCUMENT_ROOT"] . '/post/functions.php');
 if ($_SESSION['fileExpDir']) {$directory = $_SERVER["DOCUMENT_ROOT"] . '/' . $uploadsRoot . '/' . $_SESSION['fileExpDir'];}
 
 
-$var = $_POST;
+$var = $_GET;
 #print_r($var);
-$oldFile = $directory . '/' . $var['filename'];
-$newFile = $directory . '/' . $var['newFilename'];
+$oldFile = $directory . '/' . htmlspecialchars($var['filename']);
+$newFile = $directory . '/' . htmlspecialchars($var['newFilename']);
 
 rename($oldFile, $newFile);
 log_message('w katalogu ' . $_SESSION['fileExpDir'] . ' zmieniono nazwe pliku z ' . $var['filename'] . ' na ' . $var['newFilename']);

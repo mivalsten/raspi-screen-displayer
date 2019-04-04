@@ -22,6 +22,7 @@ INSERT INTO t_directories VALUES ('stageVideo',   '/3video',  'stage');
 INSERT INTO t_directories VALUES ('output',       '/out',     'rootPath');
 INSERT INTO t_directories VALUES ('www',          '/www',     'rootPath');
 INSERT INTO t_directories VALUES ('wwwUploads',   '/uploads', 'www');
+INSERT INTO t_directories VALUES ('db',   '/db', 'rootPath');
 
 DROP VIEW IF EXISTS v_directories;
 CREATE VIEW v_directories (name, path)
@@ -40,12 +41,34 @@ AS
     ON dir_cte.name = t1.base
     where t1.base IS NOT NULL
 )
--- Statement using the CTE
 SELECT name, path FROM (
     SELECT name, path, max(lvl)
     FROM   dir_cte
     GROUP BY name) a
 ORDER BY name;
+
+DROP TABLE IF EXISTS schedules;
+create table schedules (
+	name varchar(30)
+	,start int
+	,end int
+);
+	
+insert into schedules values (schedule1, 1548097200, 1548108000);
+insert into schedules values (schedule2, 0, 0);
+insert into schedules values (schedule3, 1548338400, 1548439200);
+insert into schedules values (schedule4, 0, 0);
+insert into schedules values (schedule5, 0, 0);
+insert into schedules values (schedule6, 0, 0);
+insert into schedules values (schedule7, 0, 0);
+
+
+create view v_schedules AS
+select name
+from schedules
+where start < strftime('%s','now') and end > strftime('%s','now')--and datetime(end) > datetime('now');
+ORDER BY name
+LIMIT 1;
 
 DROP TABLE IF EXISTS t_users;
 CREATE TABLE t_users (
@@ -53,4 +76,5 @@ CREATE TABLE t_users (
     ,passwd char(60)
 );
 
+--create dafault user admin with password admin so that first user can log in to the system
 INSERT INTO t_users VALUES ('admin', '$2y$10$WCwyeWTSdx.Q6V0yqMAXdeef38PG6jfg6ftThNMVY2/kYTjcUQig2');

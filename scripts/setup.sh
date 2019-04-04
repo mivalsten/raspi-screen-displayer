@@ -24,7 +24,8 @@ ${output} \
 ${www} \
 ${wwwUploads} ${wwwUploads}/default ${wwwUploads}/schedule1 ${wwwUploads}/schedule2 \
 ${wwwUploads}/schedule3 ${wwwUploads}/schedule4 ${wwwUploads}/schedule5 \
-${wwwUploads}/schedule6 ${wwwUploads}/schedule7
+${wwwUploads}/schedule6 ${wwwUploads}/schedule7 \
+${rootPath}\db
 
 sudo apt-get update
 
@@ -32,7 +33,7 @@ sudo apt-get update
 sudo apt-get install -y imagemagick libreoffice ffmpeg
 
 #configure ImageMagick policy.xml
-sudo cp ${DIR}/policy.xml /etc/ImageMagick-6/policy.xml
+sudo cp ${DIR}/templates/policy.xml /etc/ImageMagick-6/policy.xml
 
 #front side
 sudo apt-get install -y php7.2-fpm
@@ -45,11 +46,11 @@ sudo cp ${DIR}/templates/php.ini /etc/php/7.2/fpm/php.ini
 
 sudo apt-get install -y acl isc-dhcp-server bind9
 
-sudo apt-get install -y vim mc
+sudo apt-get install -y vim mc ts
 
 sudo apt-get install -y sqlite3 php7.2-sqlite3
 
-sqlite3 ../database.sqlite < ./templates/database.sql
+sqlite3 ../db/database.sqlite < ./templates/database.sql
 
 echo 'unpack bind and dhcpd configuration'
 

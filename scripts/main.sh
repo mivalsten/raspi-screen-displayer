@@ -29,7 +29,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 documentRegex=".*\.\(pptx?\|docx?\|odt\|odp\)"
 videoRegex=".*\.\(webm|mkv|flv\|flv\|vob\|ogv\|ogg\|drc\|gif\|gifv\|mng\|avi\|MTS\|M2TS\|mov\|qt\|wmv\|yuv\|rm\|rmvb\|asf\|amv\|mp4\|m4p\|m4v\|mpg\|mp2\|mpeg\|mpe\|mpv\|mpg\|mpeg\|m2v\|m4v\|svi\|3gp\|3g2\|mxf\|roq\|nsv\|flv\|f4v\|f4p\|f4a\|f4b\)"
-imageRegex=".*\.\(png\|gif\|jpe?g\|webm\)"
+imageRegex=".*\.\(png\|gif\|jpe?g\|webm\|tiff\)"
 
 ###########################################################
 #                                                         #
@@ -52,7 +52,7 @@ fi
 rm -rf ${stagePDF}/*
 rm -rf ${stageImage}/*
 rm -rf ${stageVideo}/*
-rm -rf ${output}/*
+rm -rf ${output}/final.mp4
 
 #check if schedule is active and symlink correct directory
 . ${DIR}/scheduler.sh
@@ -96,7 +96,8 @@ echo converting PDFs to images
 #convert pdf files to images for stage 2 conversion
 find ${stagePDF} -maxdepth 1 -name "*.pdf" -exec basename "{}" .pdf \; | while read name; do
 	echo converting $name
-	convert -background white -alpha off -density 400 "${stagePDF}/${name}.pdf" "${stageImage}/${name}-%04d.png"
+	convert -background white -alpha off -density 300 -resize 1080x "${stagePDF}/${name}.pdf" "${stageImage}/${name}-%04d${stagingImageType}"
+	echo "error code: $?"
 done
 
 #convert other images to png for further processing
@@ -104,7 +105,7 @@ done
 echo converting images to PNGs
 find ${incoming}/ -maxdepth 1 -iregex "${imageRegex}" -exec basename "{}" \; | while read name; do
 	echo converting $name
-	convert -background white -alpha off -coalesce -density 200 "${incoming}/${name}" "${stageImage}/${name}.png"
+	convert -background white -alpha off -coalesce -density 200 "${incoming}/${name}" "${stageImage}/${name}${stagingImageType}"
 done
 
 #TODO: add separate section for animated images

@@ -1,11 +1,34 @@
-function getNewFilename(filename) {
-	var newFilename = prompt("Podaj nową nazwę pliku", filename);
-	if (newFilename === null) {return;}
-	var fields = document.getElementsByName("newFilename");
-	for (i=0; i < fields.length; i++) {
-		fields[i].setAttribute('value',newFilename);
-	}
+function ajaxPost(str) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", str, true);
+        xmlhttp.send();
 }
+
+function renameFile(filename) {
+	var newFilename = prompt("Podaj nową nazwę pliku", filename);
+	str = "/post/rename_file.php?filename=" + encodeURI(filename) + "&newFilename=" + encodeURI(newFilename);
+	ajaxPost(str);
+	location.reload();
+}
+
+function deleteFile(filename) {
+	str = "/post/delete_file.php?filename=" + encodeURI(filename);
+	ajaxPost(str);
+	location.reload();
+}
+
+function copyFile(filename) {
+	str = "/post/delete_file.php?filename=" + encodeURI(filename);
+	ajaxPost(str);
+	location.reload();
+}
+
+function setTime(filename) {
+	str = "/post/delete_file.php?filename=" + encodeURI(filename);
+	ajaxPost(str);
+	location.reload();
+}
+
 function changeConfigValue(ID) {
 	configSpan="configSpan"+ID;
 	configValue="configValue"+ID;
@@ -25,3 +48,4 @@ function changeClientConfigValue(ID) {
 function scheduleChanged() {
 	document.getElementById("scheduleForm").submit();
 };
+
