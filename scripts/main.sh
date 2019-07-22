@@ -117,7 +117,8 @@ echo converting images to videos
 cd ${stageImage}
 for name in *${stagingImageType}; do
 	echo converting $name
-	ffmpeg -v fatal -loop 1 -i "${stageImage}/${name}" -c:v libx264 -preset ultrafast -t ${slideDurationSeconds} -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${name}.mp4"
+	fadeStart=(${slideDurationSeconds}-1)*${framerate}
+	ffmpeg -v fatal -loop 1 -i "${stageImage}/${name}" -c:v libx264 -preset ultrafast -t ${slideDurationSeconds} -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1,fade=in:0:${framerate},fade=out:${fadeStart}:${framerate} -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${name}.mp4"
 done
 
 # get videos from input and normalize them (1920x1080 + black bars if necessary)
