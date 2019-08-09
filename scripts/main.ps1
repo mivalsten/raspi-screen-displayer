@@ -59,14 +59,14 @@ Get-ChildItem -Path $incoming -Filter "*.pdf" | copy-item -Destination $stagePDF
 #convert PDFs to series of images
 foreach ($file in $(get-childitem -path $stagePDF)) {
     write-output "converting $file to image(s)"
-    convert -background white -alpha off -density 300 -resize 1080x "$($file.FullName)" "$stageImage/$($file.BaseName)-%04d$stagingImageType"
+    convert -background white -alpha off -density 300 -resize 1920x1080 "$($file.FullName)" "$stageImage/$($file.BaseName)-%04d$stagingImageType"
     if (! $? ) { write-output "An error occured during conversion."; exit 1 }
 }
 
 #convert other images to base format for further processing
 Get-ChildItem -Path $incoming | where-object -FilterScript { $_.name -match $imageRegex } | ForEach-Object {
     Write-Output "Reencoding $_"
-    convert -background white -alpha off -coalesce -density 200 "$($_.FullName)" "$stageImage/$($_.BaseName)$stagingImageType"
+    convert -background white -alpha off -coalesce -resize 1920x1080 "$($_.FullName)" "$stageImage/$($_.BaseName)$stagingImageType"
     if (! $? ) { write-output "An error occured during conversion."; exit 1 }
 }
 
