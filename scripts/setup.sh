@@ -30,7 +30,9 @@ ${rootPath}\db
 sudo apt-get update
 
 #backend side
-sudo apt-get install -y imagemagick libreoffice ffmpeg
+sudo apt-get install -y imagemagick libreoffice ffmpeg snapd
+
+sudo snap install powershell --classic
 
 #configure ImageMagick policy.xml
 sudo cp ${DIR}/templates/policy.xml /etc/ImageMagick-6/policy.xml
