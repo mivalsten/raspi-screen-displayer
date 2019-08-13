@@ -24,7 +24,6 @@ foreach($scanned_directory as $val){
     <a href="#" onclick="renameFile(\'' . $val . '\')">Zmień nazwę</a>
     <a href="#" onclick="copyFile(\'' . $val . '\')">Skopiuj</a>
     <a href="#" onclick="deleteFile(\'' . $val . '\')">Usuń</a>
-	<a href="#" onclick="setTime(\'' . $val . '\')">Ustaw czas</a>
   </div>
 </div>
 	</td>' . "\n";

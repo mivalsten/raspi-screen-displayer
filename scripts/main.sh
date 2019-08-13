@@ -128,8 +128,10 @@ cd ${incoming}
 echo normalising videos
 find ${incoming}/ -maxdepth 1 -iregex "${videoRegex}" -exec basename {} \; | sort | while read name; do
 	filename="${name%.*}"
+	fileFPS=`ffprobe ${name} 2>&1 | grep -oE "[[:digit:]]+ fps" | grep -oE "[[:digit:]]+"`
+	fileFrames=`ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of default=nokey=1:noprint_wrappers=1 ${name}`
 	echo working on $filename
-	ffmpeg -v fatal -i "${incoming}/${name}" -c:v libx264 -preset ultrafast -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1 -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${filename}.mp4" &
+	ffmpeg -v fatal -i "${incoming}/${name}" -c:v libx264 -preset ultrafast -vf scale="1920:1080:force_original_aspect_ratio=decrease",pad="1920:1080:(ow-iw)/2:(oh-ih)/2",setsar=1,fade=in:0:${fileFPS} -pix_fmt yuv420p -y -r ${framerate} "${stageVideo}/${filename}.mp4" &
 done
 
 echo creating final video

@@ -54,15 +54,15 @@ create table schedules (
 	,end int
 );
 	
-insert into schedules values (schedule1, 1548097200, 1548108000);
-insert into schedules values (schedule2, 0, 0);
-insert into schedules values (schedule3, 1548338400, 1548439200);
-insert into schedules values (schedule4, 0, 0);
-insert into schedules values (schedule5, 0, 0);
-insert into schedules values (schedule6, 0, 0);
-insert into schedules values (schedule7, 0, 0);
+insert into schedules values ('schedule1', 1548097200, 1548108000);
+insert into schedules values ('schedule2', 0, 0);
+insert into schedules values ('schedule3', 1548338400, 1548439200);
+insert into schedules values ('schedule4', 0, 0);
+insert into schedules values ('schedule5', 0, 0);
+insert into schedules values ('schedule6', 0, 0);
+insert into schedules values ('schedule7', 0, 0);
 
-
+DROP VIEW IF EXISTS v_schedules;
 create view v_schedules AS
 select name
 from schedules
@@ -74,7 +74,8 @@ DROP TABLE IF EXISTS t_users;
 CREATE TABLE t_users (
     username varchar(32)
     ,passwd char(60)
+	,isAdmin boolean
 );
 
 --create dafault user admin with password admin so that first user can log in to the system
-INSERT INTO t_users VALUES ('admin', '$2y$10$WCwyeWTSdx.Q6V0yqMAXdeef38PG6jfg6ftThNMVY2/kYTjcUQig2');
+INSERT INTO t_users VALUES ('admin', '$2y$10$WCwyeWTSdx.Q6V0yqMAXdeef38PG6jfg6ftThNMVY2/kYTjcUQig2', 1);

@@ -19,7 +19,8 @@ session_start();
 
 include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 include('login.php');
-
+print "<p>Witaj $user!</p>";
+print '<a href="/users.php">Zarządzanie użytkownikami</a>';
 if (! isset($_SESSION['fileExpDir'])) {$_SESSION['fileExpDir'] = 'default';}
 
 if (isset($_POST['scheduleSelect'])) {

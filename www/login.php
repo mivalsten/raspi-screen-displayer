@@ -5,16 +5,18 @@ include($_SERVER["DOCUMENT_ROOT"] . '/../config.php');
 include($_SERVER["DOCUMENT_ROOT"] . '/db.php');
 
 $user = SQLite3::escapeString($_SERVER['PHP_AUTH_USER']);
-$pass = $_SERVER['PHP_AUTH_PW'];
+$pass = SQLite3::escapeString($_SERVER['PHP_AUTH_PW']);
 
-$sql = '
-SELECT passwd FROM t_users
-WHERE username = \'' . $user . '\';';
+
+$sql = "
+SELECT passwd, isAdmin FROM t_users
+WHERE username = '" . $user . "';";
 
 $ret = $db->query($sql);
 
 while($row = $ret->fetchArray(SQLITE3_ASSOC) ) {
-  $pass_hash = $row['passwd'];  
+  $pass_hash = $row['passwd'];
+  $_SESSION["isAdmin"] = $row['isAdmin'];
 }
 $db->close();
 
@@ -27,6 +29,5 @@ if (!$validated) {
 }
 
 // If arrives here, is a valid user.
-echo "<p>Witaj $user!</p>";
-
+$_SESSION['username'] = $user;
 ?>
