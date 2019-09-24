@@ -36,7 +36,7 @@ $checksumPath = "$output/incomingChecksum.md5"
 $newChecksumPath = "$output/newIncomingChecksum.md5"
 if (Test-Path $checksumPath -PathType Leaf) { $oldChecksum = get-content $checksumPath }
 else { $oldChecksum = '' }
-$newChecksum = $(foreach ($file in gci $incoming) { Get-FileHash $file }) | Sort-Object -Property "path" | md5sum
+$newChecksum = $(foreach ($file in gci "$incoming", "$root\config.ps1") { Get-FileHash $file }) | Sort-Object -Property "path" | md5sum
 
 if ($oldChecksum -eq $newChecksum) {
     Write-Output "No changes detected."
