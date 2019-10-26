@@ -1,19 +1,21 @@
 # raspi-screen-displayer
 
 This is a set of utilities that bundles documents, images and videos together to create one video file with no sound to play on raspberryPi.
-As of now, the RaspberryPi playing part is not yet complete.
+Raspi scripts are in /client folder, put them in cron every so often (I used * * * * *) 
 
 How to use:
 
 Pull to local, install php and your favourite webserver. Add execution right to scripts from ./scripts
 
-Edit and execute ./scripts/config.sh
+Run ./scripts/setup.sh
+
+Edit and execute ./scripts/config.ps1
 
 Edit ./www/config.php
 
 Configure your webserver with ./www as a root document.
 
-Configure usernames and passwords (plaintext xD) in ./www/login.php. This will get fixed sometime to use nginx pam module or something.
+Default user:password is admin:admin, change after first logon.
 
 Probably some permissions are incorrect, run ./scripts/main.sh to find out which.
 
@@ -21,4 +23,4 @@ Basically this. Control panel is pretty basic, so you should be able to figue it
 
 Schedules are set in a way that allows only first valid schedule to be activated.
 
-./scripts/main.sh should be in cron.
+./scripts/main.ps1 should be in cron.
