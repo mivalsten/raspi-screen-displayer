@@ -98,5 +98,5 @@ ffmpeg -v $FFMPEGVerboseLevel -f concat -safe 0 -i "$stageVideo/concat.txt" -s h
 if (! $? ) { write-output "An error occured during conversion."; exit 1 }
 
 Write-Output "Replacing files to newes versions"
-move-item -Path $newChecksumPath -Destination $checksumPath -Force
 move-item -Path "$output/newFinal.mp4" -Destination "$output/final.mp4" -Force
+move-item -Path $newChecksumPath -Destination $checksumPath -Force
