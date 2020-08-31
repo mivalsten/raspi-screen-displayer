@@ -22,8 +22,8 @@ foreach($configuration as $line){
 };
 file_put_contents($scheduleConfig, $newConfigurationFileContents);
 
-log_message('Zmieniono start harmonogramu ' . $_SESSION['fileExpDir'] . ' na ' . $startDate);
-log_message('Zmieniono koniec harmonogramu ' . $_SESSION['fileExpDir'] . ' na ' . $endDate);
+log_message('Zmieniono start harmonogramu ' . $_SESSION['fileExpDir'] . ' na ' . date_format($startDate, "Y/m/d H:i:s"));
+log_message('Zmieniono koniec harmonogramu ' . $_SESSION['fileExpDir'] . ' na ' . date_format($endDate, "Y/m/d H:i:s"));
 
 #print $_POST['start-date'] . " - " . $startDateEpoch . "<br>";
 #print $_POST['end-date'] . " - " . $endDateEpoch;
