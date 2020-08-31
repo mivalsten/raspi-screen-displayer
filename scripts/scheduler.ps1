@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/snap/bin/pwsh
 
 ####################################################################
 #                                                                  #
@@ -16,11 +16,14 @@
 $sched = "default"
 $scheduleFile = "$PSScriptRoot/schedule.txt"
 $CurrentDate = Get-Date
+$loc = [System.TimeZoneInfo]::Local
+$utc = [System.TimeZoneInfo]::Utc
+
 
 foreach ($schedule in get-content $scheduleFile) {
     $sch, $startEpoch, $endEpoch = $schedule -split ';'
-    $startEpoch = (Get-Date 01.01.1970) + ([System.TimeSpan]::fromseconds($startEpoch))
-    $endEpoch = (Get-Date 01.01.1970) + ([System.TimeSpan]::fromseconds($endEpoch))
+    $startEpoch = [system.TimeZoneInfo]::ConvertTime((Get-Date 01.01.1970) + ([System.TimeSpan]::fromseconds($startEpoch)),$utc,$loc)
+    $endEpoch = [system.TimeZoneInfo]::ConvertTime((Get-Date 01.01.1970) + ([System.TimeSpan]::fromseconds($endEpoch)),$utc,$loc)
     if ($startEpoch -le $CurrentDate -and $currentDate -le $endEpoch) {
         $sched = $sch
         break
